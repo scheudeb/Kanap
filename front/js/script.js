@@ -1,5 +1,5 @@
 // Déborah Scheuren
-// Fichier de gestion des éléments produits
+// Script d'affichage de la page produit sur la page d'accueil
 // 12.12.2022
 
 //Appel API des différents produits
