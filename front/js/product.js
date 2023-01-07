@@ -69,11 +69,11 @@ buttonAddCart.addEventListener("click", function (event) {
     addProduct.quantity = parseInt(document.getElementById('quantity').value, 10);
     addProduct.colors = document.getElementById('colors').value;
 
-    var indexPanier = 0;
-    var objetFound = false;
+    let indexPanier = 0;
+    let objetFound = false;
 
     let objLinesOut = localStorage.getItem("cart");
-    var productCart = JSON.parse(objLinesOut);
+    let productCart = JSON.parse(objLinesOut);
     // console.log(objLinesOut);
     console.log(productCart);
 
