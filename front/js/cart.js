@@ -1,30 +1,44 @@
 // Déborah Scheuren
-// Script d'affichage de la page panier
+// Script d'affichage des produits dans la page panier
 // 05.01.2023
 
-// Modification de la balise title du navigateur
+// ---------------Modification de la balise title du navigateur
 document.title = "Mon panier | Kanap";
 
 let objLinesOut = localStorage.getItem("cart");
-//-----------------JSON.parse c'est pour convertir les données au format JSON qui sont dans le localStorage en objet javascript--------------------
+//-----------------JSON.parse pour convertir les données au format JSON qui sont dans le localStorage en objet javascript--------------------
 
 var productCart = JSON.parse(objLinesOut);
 
-//--------------------Sélection de la balise de la page product.html dans laquel on va insérer les produits et leurs infos-------------------------
-// const cartItemsHtml = document.getElementById("cart__items");
-console.log("productCart");
-console.log(productCart);
-console.log("product");
+let totalQuantity = 0;
+let totalPrice = 0;
+let currentIndex = 0;
+
+// ----------------Récupération  des informations de l'API en fonction des éléments ajoutés au panier 
 for (let product of productCart) {
     console.log(product);
     fetch('http://localhost:3000/api/products/' + product.id)
         .then(response => response.json())
         .then(data => {
             // console.log(data);
-            displayProductCart(data, product)
+            displayProductCart(data, product);
+            // -----------------Récupération de la quantité des produits et le prix ajoutés au panier et affichage de celui-ci
+            totalQuantity += product.quantity;
+            totalPrice += data.price * product.quantity;
+            if (currentIndex == productCart.length - 1) {
+                const totalQuantityHtml = document.getElementById("totalQuantity");
+                totalQuantityHtml.innerHTML = totalQuantity;
+                console.log(totalQuantity);
+
+                const totalPriceHtml = document.getElementById("totalPrice");
+                totalPriceHtml.innerHTML = totalPrice;
+                console.log(totalPrice);
+            }
+            currentIndex += 1;
         });
 }
 
+// ---------------- Fonction qui va modifier le HTML en fonction des éléments ajoutés
 function displayProductCart(data, product) {
     console.log(data);
     const cartItemsHtml = document.getElementById("cart__items");
@@ -51,16 +65,6 @@ function displayProductCart(data, product) {
   </article>`;
 }
 
-
+// ------------------- Modification de l'image et du titre 
 let imgProduct = document.querySelector('.item__img');
 imgProduct.innerHTML += '<img src="' + productInfo.imageUrl + '" alt="' + productInfo.altTxt + '"></img>';
-//_______________________________________________Déclaration des variables________________________________________________________________________
-let compositionProduitsPanier = [];
-//-----------On déclare nos variables globales pour pouvoir calculer la quantité total d'articles et le prix total du panier----------------------
-let totalPrice = 0;
-let totalQuantity = 0;
-let quantityProductPanier = 0;
-let priceProductPanier = 0;
-let totalProductPricePanier = 0;
-let myProducts = [];
-const findProducts = 0;
