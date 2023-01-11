@@ -33,6 +33,7 @@ function displayProduct(productInfo) {
     let imgProduct = document.querySelector('.item__img');
     imgProduct.innerHTML += '<img src="' + productInfo.imageUrl + '" alt="' + productInfo.altTxt + '"></img>';
 
+    console.log(imgProduct);
     //Modification du titre
     let titleProduct = document.querySelector('#title');
     titleProduct.innerHTML = productInfo.name;

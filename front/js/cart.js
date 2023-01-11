@@ -5,6 +5,7 @@
 // ---------------Modification de la balise title du navigateur
 document.title = "Mon panier | Kanap";
 
+// ---------------Get item permet de chercher l'item cart
 let objLinesOut = localStorage.getItem("cart");
 //-----------------JSON.parse pour convertir les données au format JSON qui sont dans le localStorage en objet javascript
 var productCart = JSON.parse(objLinesOut);
@@ -12,7 +13,6 @@ var productCart = JSON.parse(objLinesOut);
 const totalQuantityHtml = document.getElementById("totalQuantity");
 const totalPriceHtml = document.getElementById("totalPrice");
 const cartItemsHtml = document.getElementById("cart__items");
-
 let totalQuantity = 0;
 let totalPrice = 0;
 
@@ -31,10 +31,10 @@ async function displayCart() {
   totalPrice = 0;
   cartItemsHtml.innerHTML = "";
   for (let product of productCart) {
-    console.log(product);
+    // console.log(product);
     let dataApiProduct = await getApiDataById(product.id);
     displayProductCart(dataApiProduct, product);
-    // -----------------Récupération de la quantité des produits et le prix ajoutés au panier
+    // -----------------Récupération de la quantité des produits et le prix ajoutés au panier pour calculer le prix final
     totalQuantity += parseInt(product.quantity, 10);
     totalPrice += dataApiProduct.price * parseInt(product.quantity, 10);
   }
@@ -45,22 +45,22 @@ async function displayCart() {
 
   // constante qui permet de rechercher tous les éléments de la classe itemQuantity
   const inputsQuantityHtml = document.getElementsByClassName("itemQuantity");
-  console.log(inputsQuantityHtml);
+  // console.log(inputsQuantityHtml);
 
   // Boucle qui permet d'ajouter un listener sur chaque élément
   for (let inputQuantityHtml of inputsQuantityHtml) {
     inputQuantityHtml.addEventListener('change', async (event) => {
-      console.log('Value changed');
+      // console.log('Value changed');
       let currentInputHtml = event.target;
-      console.log(currentInputHtml.value);
+      // console.log(currentInputHtml.value);
       let currentArticleHtml = currentInputHtml.closest("article");
-      console.log(currentArticleHtml.dataset.id);
+      // console.log(currentArticleHtml.dataset.id);
 
       totalQuantity = 0;
       totalPrice = 0;
       for (let indexProduct in productCart) {
         if (currentArticleHtml.dataset.id == productCart[indexProduct].id && currentArticleHtml.dataset.color == productCart[indexProduct].colors) {
-          console.log('bonjour');
+          // console.log('bonjour');
           productCart[indexProduct].quantity = parseInt(currentInputHtml.value, 10);
         }
 
@@ -79,14 +79,15 @@ async function displayCart() {
   }
 
   const inputsDeleteHtml = document.getElementsByClassName("deleteItem");
-  console.log(inputsDeleteHtml);
+  // console.log(inputsDeleteHtml);
+
   // Boucle qui permet d'ajouter un listener sur chaque élément
   for (let inputDeleteHtml of inputsDeleteHtml) {
     inputDeleteHtml.addEventListener('click', async (event) => {
-      console.log('Bouton supprimer cliqué');
+      // console.log('Bouton supprimer cliqué');
       let currentDeleteHtml = event.target;
       let currentArticleHtml = currentDeleteHtml.closest("article");
-      console.log(currentArticleHtml.dataset.id);
+      // console.log(currentArticleHtml.dataset.id);
 
       totalQuantity = 0;
       totalPrice = 0;
@@ -95,7 +96,7 @@ async function displayCart() {
       let productCartCopy = Array.from(productCart);
       for (let indexProduct in productCart) {
         if (currentArticleHtml.dataset.id == productCart[indexProduct].id && currentArticleHtml.dataset.color == productCart[indexProduct].colors) {
-          console.log("supression de l'élément");
+          // console.log("supression de l'élément");
           productCartCopy.splice(indexProduct, 1);
           currentArticleHtml.remove();
         }
@@ -106,6 +107,7 @@ async function displayCart() {
         }
       }
       productCart = productCartCopy;
+
       // Permet d'afficher la quantité et le prix mis à jour 
       totalQuantityHtml.innerHTML = totalQuantity;
       totalPriceHtml.innerHTML = totalPrice;
@@ -119,7 +121,7 @@ async function displayCart() {
 
 // ---------------- Fonction qui va modifier le HTML en fonction des éléments ajoutés
 function displayProductCart(dataApiProduct, product) {
-  console.log(dataApiProduct);
+  // console.log(dataApiProduct);
   cartItemsHtml.innerHTML += `<article class="cart__item" data-id="${product.id}" data-color="${product.colors}">
     <div class="cart__item__img">
       <img src="${dataApiProduct.imageUrl}" alt="${dataApiProduct.altTxt}">
@@ -145,5 +147,20 @@ function displayProductCart(dataApiProduct, product) {
 
 displayCart();
 
-// const itemQuantityHtml = document.getElementsByClassName("itemQuantity");
-// itemQuantityHtml.addEventListener('change', changeQuantity(), false);
+let emailCheck = /@/;
+const emailHtml = document.getElementById("email");
+const orderHtml = document.getElementById("order");
+orderHtml.addEventListener('click', () => {
+  console.log("click !");
+  console.log(emailHtml.value);
+  console.log(emailCheck.test(emailHtml.value));
+
+  if (emailCheck.test(emailHtml.value)) {
+    console.log('bravo');
+  }
+  else {
+    console.log('pas bravo');
+  }
+
+}, false);
+
