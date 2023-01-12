@@ -147,20 +147,80 @@ function displayProductCart(dataApiProduct, product) {
 
 displayCart();
 
-let emailCheck = /@/;
-const emailHtml = document.getElementById("email");
-const orderHtml = document.getElementById("order");
-orderHtml.addEventListener('click', () => {
-  console.log("click !");
-  console.log(emailHtml.value);
-  console.log(emailCheck.test(emailHtml.value));
+// ---------------------------- Variables Regex 
+let emailCheck = /^[A-Za-z0-9\-\.]+@([A-Za-z0-9\-]+\.)+[A-Za-z0-9-]{2,4}$/;
+let nameCheck = /^[a-zA-Z\-çñàéèêëïîôüù ]{2,}$/;
+let addressCheck = /^[0-9a-zA-Z\s,.'-çñàéèêëïîôüù]{3,}$/;
 
-  if (emailCheck.test(emailHtml.value)) {
-    console.log('bravo');
+// -----------------------------Récupération des ID
+const firstNameHtml = document.getElementById('firstName');
+const lastNameHtml = document.getElementById('lastName');
+const addressHtml = document.getElementById('address');
+const cityHtml = document.getElementById('city');
+const emailHtml = document.getElementById('email');
+
+// ---------------------------firstName 
+firstNameHtml.addEventListener('input', (e) => {
+  e.preventDefault();
+  if (nameCheck.test(emailHtml.value) == false || firstNameHtml.value == "") {
+    document.getElementById('firstNameErrorMsg').textContent = "Le prénom saisi n'est pas valide";
+    return false;
   }
   else {
-    console.log('pas bravo');
+    document.getElementById('firstNameErrorMsg').textContent = "";
+    return true;
   }
+});
 
-}, false);
+// --------------------------- LastName
+lastNameHtml.addEventListener('input', (e) => {
+  e.preventDefault();
+  if (nameCheck.test(lastNameHtml.value) == false || lastNameHtml.value == "") {
+    document.getElementById('lastNameErrorMsg').textContent = "Le nom saisi n'est pas valide";
+    return false;
+  }
+  else {
+    document.getElementById('lastNameErrorMsg').textContent = "";
+    return true;
+  }
+});
+
+// --------------------------- adress
+addressHtml.addEventListener('input', (e) => {
+  e.preventDefault();
+  if (addressCheck.test(addressHtml.value) == false || addressHtml.value == "") {
+    document.getElementById('addressErrorMsg').textContent = "L'adresse saisie n'est pas valide";
+    return false;
+  }
+  else {
+    document.getElementById('addressErrorMsg').textContent = "";
+    return true;
+  }
+});
+
+// --------------------------- city
+cityHtml.addEventListener('input', (e) => {
+  e.preventDefault();
+  if (nameCheck.test(cityHtml.value) == false || cityHtml.value == "") {
+    document.getElementById('cityErrorMsg').textContent = "La ville saisie n'est pas valide";
+    return false;
+  }
+  else {
+    document.getElementById('cityErrorMsg').textContent = "";
+    return true;
+  }
+});
+
+// --------------------------- email
+emailHtml.addEventListener('input', (e) => {
+  e.preventDefault();
+  if (emailCheck.test(emailHtml.value) == false || emailHtml.value == "") {
+    document.getElementById('emailErrorMsg').textContent = "L'adresse mail saisie n'est pas valide";
+    return false;
+  }
+  else {
+    document.getElementById('emailErrorMsg').textContent = "";
+    return true;
+  }
+});
 
