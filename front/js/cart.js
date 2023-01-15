@@ -162,13 +162,11 @@ const emailHtml = document.getElementById('email');
 // ---------------------------firstName 
 firstNameHtml.addEventListener('input', (e) => {
   e.preventDefault();
-  if (nameCheck.test(emailHtml.value) == false || firstNameHtml.value == "") {
+  if (nameCheck.test(firstNameHtml.value) == false || firstNameHtml.value == "") {
     document.getElementById('firstNameErrorMsg').textContent = "Le prénom saisi n'est pas valide";
-    return false;
   }
   else {
     document.getElementById('firstNameErrorMsg').textContent = "";
-    return true;
   }
 });
 
@@ -177,11 +175,9 @@ lastNameHtml.addEventListener('input', (e) => {
   e.preventDefault();
   if (nameCheck.test(lastNameHtml.value) == false || lastNameHtml.value == "") {
     document.getElementById('lastNameErrorMsg').textContent = "Le nom saisi n'est pas valide";
-    return false;
   }
   else {
     document.getElementById('lastNameErrorMsg').textContent = "";
-    return true;
   }
 });
 
@@ -190,11 +186,9 @@ addressHtml.addEventListener('input', (e) => {
   e.preventDefault();
   if (addressCheck.test(addressHtml.value) == false || addressHtml.value == "") {
     document.getElementById('addressErrorMsg').textContent = "L'adresse saisie n'est pas valide";
-    return false;
   }
   else {
     document.getElementById('addressErrorMsg').textContent = "";
-    return true;
   }
 });
 
@@ -203,11 +197,9 @@ cityHtml.addEventListener('input', (e) => {
   e.preventDefault();
   if (nameCheck.test(cityHtml.value) == false || cityHtml.value == "") {
     document.getElementById('cityErrorMsg').textContent = "La ville saisie n'est pas valide";
-    return false;
   }
   else {
     document.getElementById('cityErrorMsg').textContent = "";
-    return true;
   }
 });
 
@@ -216,11 +208,58 @@ emailHtml.addEventListener('input', (e) => {
   e.preventDefault();
   if (emailCheck.test(emailHtml.value) == false || emailHtml.value == "") {
     document.getElementById('emailErrorMsg').textContent = "L'adresse mail saisie n'est pas valide";
-    return false;
   }
   else {
     document.getElementById('emailErrorMsg').textContent = "";
-    return true;
   }
+});
+
+// ----------------- commander 
+
+const order = document.getElementById('order');
+
+//------------------- Au click, les données du localstorage seront sauvegardées et envoyées à l'API
+order.addEventListener('click', async (e) => {
+  e.preventDefault();
+
+  // ------------- Messages d'erreurs si les informations ne sont pas remplies
+  if (nameCheck.test(firstNameHtml.value) == false ||
+    nameCheck.test(lastNameHtml.value) == false ||
+    addressCheck.test(addressHtml.value) == false ||
+    nameCheck.test(cityHtml.value) == false ||
+    emailCheck.test(emailHtml.value) == false) {
+    alert('Veuillez remplir tous les champs correctement');
+    return 1;
+  }
+
+  // récupère les données du client
+  let contact = {
+    firstName: firstNameHtml.value,
+    lastName: lastNameHtml.value,
+    address: addressHtml.value,
+    city: cityHtml.value,
+    email: emailHtml.value,
+  };
+
+  let idProducts = [];
+  for (let i of productCart) {
+    idProducts.push(i.id);
+  }
+  console.log(idProducts);
+
+  // ---------------- Tableau qui comprend l'objet contact et l'ID des produits ajoutés au panier
+  let toSend = { "contact": contact, "products": idProducts };
+  console.log(toSend);
+  let response = await fetch('http://localhost:3000/api/products/order', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8'
+    },
+    body: JSON.stringify(toSend)
+  });
+  const result = await response.json();
+  window.location.href = "./confirmation.html?orderId=" + result.orderId;
+  console.log(confirmation);
+
 });
 
