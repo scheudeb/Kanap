@@ -1,6 +1,6 @@
 // Déborah Scheuren
-// XXX
-// 05.01.2023
+// Script d'affichage du numéro de commande 
+// 15.01.2023
 
 //stockage dans la variable urlStr de l'url de la page courante
 let urlStr = window.location.href;

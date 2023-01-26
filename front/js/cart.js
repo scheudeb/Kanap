@@ -8,7 +8,7 @@ document.title = "Mon panier | Kanap";
 // ---------------Get item permet de chercher l'item cart
 let objLinesOut = localStorage.getItem("cart");
 //-----------------JSON.parse pour convertir les données au format JSON qui sont dans le localStorage en objet javascript
-var productCart = JSON.parse(objLinesOut);
+let productCart = JSON.parse(objLinesOut);
 // ----------------Déclaration des variables
 const totalQuantityHtml = document.getElementById("totalQuantity");
 const totalPriceHtml = document.getElementById("totalPrice");
@@ -140,7 +140,7 @@ function displayProductCart(dataApiProduct, product) {
         <div class="cart__item__content__settings__delete">
           <p class="deleteItem">Supprimer</p>
         </div>
-      </div>
+      </div> 
     </div>
   </article>`;
 }
@@ -245,11 +245,11 @@ order.addEventListener('click', async (e) => {
   for (let i of productCart) {
     idProducts.push(i.id);
   }
-  console.log(idProducts);
+  // console.log(idProducts);
 
   // ---------------- Tableau qui comprend l'objet contact et l'ID des produits ajoutés au panier
   let toSend = { "contact": contact, "products": idProducts };
-  console.log(toSend);
+  // console.log(toSend);
   let response = await fetch('http://localhost:3000/api/products/order', {
     method: 'POST',
     headers: {
@@ -259,7 +259,7 @@ order.addEventListener('click', async (e) => {
   });
   const result = await response.json();
   window.location.href = "./confirmation.html?orderId=" + result.orderId;
-  console.log(confirmation);
+  // console.log(confirmation);
 
 });
 
