@@ -97,15 +97,16 @@ buttonAddCart.addEventListener("click", function (event) {
     } else if (addProduct.quantity > 100) {
         alert("La quantité maximale est de 100");
         addProduct.quantity = 100;
-    }
-
-    if (objetFound == true) {
-        productCart[indexPanier].quantity += addProduct.quantity;
     } else {
-        productCart.push(addProduct);
-    }
-    // console.log(productCart);
+        if (objetFound == true) {
+            productCart[indexPanier].quantity += addProduct.quantity;
+        } else {
+            productCart.push(addProduct);
+        }
+        // console.log(productCart);
 
-    let objLines = JSON.stringify(productCart);
-    localStorage.setItem("cart", objLines);
+        let objLines = JSON.stringify(productCart);
+        localStorage.setItem("cart", objLines);
+    }
+
 }, false);
