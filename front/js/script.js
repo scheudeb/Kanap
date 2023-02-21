@@ -16,16 +16,13 @@ fetch('http://localhost:3000/api/products')
 function displayProducts(data) {
     const itemsHtml = document.querySelector('#items');
     for (let product of data) {
-        let htmlAAjoute = "";
-        htmlAAjoute += '<a href="./product.html?id=' + product._id + '">';
-        htmlAAjoute += '<article>';
-        htmlAAjoute += '<img src="' + product.imageUrl + '" alt="' + product.altTxt + '">';
-        htmlAAjoute += '<h3 class="productName">' + product.name + '</h3>';
-        htmlAAjoute += '<p class="productDescription">' + product.description + '</p>';
-        htmlAAjoute += '</article>';
-        htmlAAjoute += '</a>';
-
-        itemsHtml.innerHTML += htmlAAjoute;
+        itemsHtml.innerHTML += `<a href="./product.html?id=${product._id}">
+        <article>
+            <img src="${product.imageUrl}" alt="${product.altTxt}">
+            <h3 class="productName">${product.name}</h3>
+            <p class="productDescription">${product.description}</p>
+        </article>
+        </a>`;
     }
 }
 

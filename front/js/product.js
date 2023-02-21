@@ -31,7 +31,7 @@ function displayProduct(productInfo) {
     document.title = productInfo.name;
 
     let imgProduct = document.querySelector('.item__img');
-    imgProduct.innerHTML += '<img src="' + productInfo.imageUrl + '" alt="' + productInfo.altTxt + '"></img>';
+    imgProduct.innerHTML += `<img src="${productInfo.imageUrl}" alt="${productInfo.altTxt}"></img>`;
 
     // console.log(imgProduct);
     //Modification du titre
@@ -50,7 +50,7 @@ function displayProduct(productInfo) {
     const colorProduct = document.querySelector('#colors');
     for (let color of productInfo.colors) {
         // console.log(color);
-        colorProduct.innerHTML += '<option value="' + color + '">' + color + '</option>';
+        colorProduct.innerHTML += `<option value="${color}">${color}</option>`;
     }
 }
 
@@ -90,16 +90,20 @@ buttonAddCart.addEventListener("click", function (event) {
         }
     }
     // Alerte pour obliger l'utilisateur a entrer une valeur comprise entre 1 et 100
-
     if (addProduct.quantity < 1) {
         alert("La quantité minimale est de 1");
-        addProduct.quantity = 1;
     } else if (addProduct.quantity > 100) {
         alert("La quantité maximale est de 100");
-        addProduct.quantity = 100;
+    } else if (addProduct.colors == "") {
+        alert("Veuillez sélectionner une couleur");
     } else {
         if (objetFound == true) {
-            productCart[indexPanier].quantity += addProduct.quantity;
+            let quantityAdd = productCart[indexPanier].quantity + addProduct.quantity;
+            if (quantityAdd > 100) {
+                alert("La quantité maximale d'un même produit est de 100, vous avez déjà " + productCart[indexPanier].quantity + " produit(s) dans votre panier");
+            } else {
+                productCart[indexPanier].quantity += addProduct.quantity;
+            }
         } else {
             productCart.push(addProduct);
         }
@@ -108,5 +112,4 @@ buttonAddCart.addEventListener("click", function (event) {
         let objLines = JSON.stringify(productCart);
         localStorage.setItem("cart", objLines);
     }
-
 }, false);
